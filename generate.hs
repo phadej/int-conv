@@ -26,12 +26,13 @@ testFile =
     [ "module Main (main) where"
     , "import Test.Tasty (defaultMain, testGroup)"
     , "import Test.Tasty.QuickCheck (testProperty, (===))"
+    , "import Data.Char (chr, ord)"
     , "import Data.Int.Conv"
     , ""
     , "main :: IO ()"
     , "main = defaultMain $ testGroup \"int-conv\" $"
     ] ++
-    [ "  testProperty " ++ show (funcName x y) ++ " (\\x -> " ++ funcName x y ++ " x === fromIntegral x) :"
+    [ "  testProperty " ++ show (funcName x y) ++ " (\\x -> " ++ funcName x y ++ " x === " ++ model x y ++ ") :"
     | x <- [ minBound .. maxBound :: Ty]
     , y <- [ minBound .. maxBound :: Ty]
     , x /= y
@@ -99,15 +100,18 @@ data Ty
     | I16
     | I32
     | I64
+    | C
   deriving (Eq, Ord, Show, Enum, Bounded)
 
 convTo :: Ty -> [Char]
 convTo ty
+    | ty == C   = "chr#"
     | ty <= W64 = "wordTo" ++ name ty ++ "#"
     | otherwise = "intTo" ++ name ty ++ "#"
 
 convFrom :: Ty -> [Char]
 convFrom ty
+    | ty == C   = "ord#"
     | ty <= W64 = mapFirst toLower (name ty) ++ "ToWord#"
     | otherwise = mapFirst toLower (name ty) ++ "ToInt#"
 
@@ -122,6 +126,12 @@ name I8 = "Int8"
 name I16 = "Int16"
 name I32 = "Int32"
 name I64 = "Int64"
+name C   = "Char"
 
 constructor :: Ty -> String
 constructor ty = show ty ++ "#"
+
+model :: Ty -> Ty -> String
+model _ C = "intToChar (fromIntegral x)"
+model C _ = "fromIntegral (ord x)"
+model _ _ = "fromIntegral x"
