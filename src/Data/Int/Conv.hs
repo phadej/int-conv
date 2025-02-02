@@ -31,6 +31,9 @@ wordToInt32 (W# x) = I32# (intToInt32# (word2Int# x))
 wordToInt64 :: Word -> Int64
 wordToInt64 (W# x) = I64# (intToInt64# (word2Int# x))
 
+wordToChar :: Word -> Char
+wordToChar (W# x) = C# (chr# (word2Int# x))
+
 word8ToWord :: Word8 -> Word
 word8ToWord (W8# x) = W# (word8ToWord# x)
 
@@ -57,6 +60,9 @@ word8ToInt32 (W8# x) = I32# (intToInt32# (word2Int# (word8ToWord# x)))
 
 word8ToInt64 :: Word8 -> Int64
 word8ToInt64 (W8# x) = I64# (intToInt64# (word2Int# (word8ToWord# x)))
+
+word8ToChar :: Word8 -> Char
+word8ToChar (W8# x) = C# (chr# (word2Int# (word8ToWord# x)))
 
 word16ToWord :: Word16 -> Word
 word16ToWord (W16# x) = W# (word16ToWord# x)
@@ -85,6 +91,9 @@ word16ToInt32 (W16# x) = I32# (intToInt32# (word2Int# (word16ToWord# x)))
 word16ToInt64 :: Word16 -> Int64
 word16ToInt64 (W16# x) = I64# (intToInt64# (word2Int# (word16ToWord# x)))
 
+word16ToChar :: Word16 -> Char
+word16ToChar (W16# x) = C# (chr# (word2Int# (word16ToWord# x)))
+
 word32ToWord :: Word32 -> Word
 word32ToWord (W32# x) = W# (word32ToWord# x)
 
@@ -111,6 +120,9 @@ word32ToInt32 (W32# x) = I32# (intToInt32# (word2Int# (word32ToWord# x)))
 
 word32ToInt64 :: Word32 -> Int64
 word32ToInt64 (W32# x) = I64# (intToInt64# (word2Int# (word32ToWord# x)))
+
+word32ToChar :: Word32 -> Char
+word32ToChar (W32# x) = C# (chr# (word2Int# (word32ToWord# x)))
 
 word64ToWord :: Word64 -> Word
 word64ToWord (W64# x) = W# (word64ToWord# x)
@@ -139,6 +151,9 @@ word64ToInt32 (W64# x) = I32# (intToInt32# (word2Int# (word64ToWord# x)))
 word64ToInt64 :: Word64 -> Int64
 word64ToInt64 (W64# x) = I64# (word64ToInt64# x)
 
+word64ToChar :: Word64 -> Char
+word64ToChar (W64# x) = C# (chr# (word2Int# (word64ToWord# x)))
+
 intToWord :: Int -> Word
 intToWord (I# x) = W# (int2Word# x)
 
@@ -165,6 +180,9 @@ intToInt32 (I# x) = I32# (intToInt32# x)
 
 intToInt64 :: Int -> Int64
 intToInt64 (I# x) = I64# (intToInt64# x)
+
+intToChar :: Int -> Char
+intToChar (I# x) = C# (chr# x)
 
 int8ToWord :: Int8 -> Word
 int8ToWord (I8# x) = W# (int2Word# (int8ToInt# x))
@@ -193,6 +211,9 @@ int8ToInt32 (I8# x) = I32# (intToInt32# (int8ToInt# x))
 int8ToInt64 :: Int8 -> Int64
 int8ToInt64 (I8# x) = I64# (intToInt64# (int8ToInt# x))
 
+int8ToChar :: Int8 -> Char
+int8ToChar (I8# x) = C# (chr# (int8ToInt# x))
+
 int16ToWord :: Int16 -> Word
 int16ToWord (I16# x) = W# (int2Word# (int16ToInt# x))
 
@@ -219,6 +240,9 @@ int16ToInt32 (I16# x) = I32# (intToInt32# (int16ToInt# x))
 
 int16ToInt64 :: Int16 -> Int64
 int16ToInt64 (I16# x) = I64# (intToInt64# (int16ToInt# x))
+
+int16ToChar :: Int16 -> Char
+int16ToChar (I16# x) = C# (chr# (int16ToInt# x))
 
 int32ToWord :: Int32 -> Word
 int32ToWord (I32# x) = W# (int2Word# (int32ToInt# x))
@@ -247,6 +271,9 @@ int32ToInt16 (I32# x) = I16# (intToInt16# (int32ToInt# x))
 int32ToInt64 :: Int32 -> Int64
 int32ToInt64 (I32# x) = I64# (intToInt64# (int32ToInt# x))
 
+int32ToChar :: Int32 -> Char
+int32ToChar (I32# x) = C# (chr# (int32ToInt# x))
+
 int64ToWord :: Int64 -> Word
 int64ToWord (I64# x) = W# (int2Word# (int64ToInt# x))
 
@@ -273,4 +300,37 @@ int64ToInt16 (I64# x) = I16# (intToInt16# (int64ToInt# x))
 
 int64ToInt32 :: Int64 -> Int32
 int64ToInt32 (I64# x) = I32# (intToInt32# (int64ToInt# x))
+
+int64ToChar :: Int64 -> Char
+int64ToChar (I64# x) = C# (chr# (int64ToInt# x))
+
+charToWord :: Char -> Word
+charToWord (C# x) = W# (int2Word# (ord# x))
+
+charToWord8 :: Char -> Word8
+charToWord8 (C# x) = W8# (wordToWord8# (int2Word# (ord# x)))
+
+charToWord16 :: Char -> Word16
+charToWord16 (C# x) = W16# (wordToWord16# (int2Word# (ord# x)))
+
+charToWord32 :: Char -> Word32
+charToWord32 (C# x) = W32# (wordToWord32# (int2Word# (ord# x)))
+
+charToWord64 :: Char -> Word64
+charToWord64 (C# x) = W64# (wordToWord64# (int2Word# (ord# x)))
+
+charToInt :: Char -> Int
+charToInt (C# x) = I# (ord# x)
+
+charToInt8 :: Char -> Int8
+charToInt8 (C# x) = I8# (intToInt8# (ord# x))
+
+charToInt16 :: Char -> Int16
+charToInt16 (C# x) = I16# (intToInt16# (ord# x))
+
+charToInt32 :: Char -> Int32
+charToInt32 (C# x) = I32# (intToInt32# (ord# x))
+
+charToInt64 :: Char -> Int64
+charToInt64 (C# x) = I64# (intToInt64# (ord# x))
 
